@@ -1,0 +1,9 @@
+{
+  "id": "obsidian-3d-graph-reborn",
+  "name": "3D Graph Reborn",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Interactive 3D graph view for Obsidian using Three.js.",
+  "author": "CapMarkoTo",
+  "isDesktopOnly": false
+}
