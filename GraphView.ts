@@ -202,7 +202,6 @@ export class GraphView extends ItemView {
         this.tooltipEl.style.zIndex = '100';
     }
 
-    // Улучшенный оверлей с английским языком и кнопками сворачивания / фиксации
     private initOverlay() {
         this.overlayEl = this.container.createEl('div');
         this.overlayEl.className = 'graph-overlay';
@@ -222,7 +221,6 @@ export class GraphView extends ItemView {
             backdropFilter: 'blur(8px)'
         });
 
-        // Шапка с заголовком и кнопкой сворачивания
         const header = this.overlayEl.createDiv();
         Object.assign(header.style, {
             display: 'flex',
@@ -243,7 +241,6 @@ export class GraphView extends ItemView {
         const content = this.overlayEl.createDiv();
         content.style.marginTop = '10px';
 
-        // Логика свертывания/развертывания панели
         let isCollapsed = false;
         header.addEventListener('click', () => {
             isCollapsed = !isCollapsed;
@@ -268,13 +265,11 @@ export class GraphView extends ItemView {
             });
         };
 
-        // Англоязычные ползунки настроек
         addSlider('Repulsion', 1, 50, 1, this.settings.repulsionStrength, (val) => { this.settings.repulsionStrength = val; });
         addSlider('Spring Length', 2, 30, 1, this.settings.springLength, (val) => { this.settings.springLength = val; });
         addSlider('Spring Stiffness', 0.01, 0.2, 0.01, this.settings.springStiffness, (val) => { this.settings.springStiffness = val; });
         addSlider('Damping', 0.5, 0.98, 0.01, this.settings.damping, (val) => { this.settings.damping = val; });
 
-        // Кнопка переключения симуляции (Freeze / Resume Physics)
         const freezeBtn = content.createEl('button', { text: 'Freeze Physics' });
         Object.assign(freezeBtn.style, {
             width: '100%',
@@ -294,7 +289,6 @@ export class GraphView extends ItemView {
             freezeBtn.style.color = this.isPhysicsActive ? 'var(--text-normal)' : 'var(--text-on-accent)';
         });
 
-        // Кнопка рестарта/перемешивания позиций
         const resetBtn = content.createEl('button', { text: 'Reset Layout' });
         Object.assign(resetBtn.style, {
             width: '100%',
@@ -389,7 +383,6 @@ export class GraphView extends ItemView {
     private updatePhysics() {
         const nodesArr = Array.from(this.nodes.values());
 
-        // 1. Отталкивание
         for (let i = 0; i < nodesArr.length; i++) {
             for (let j = i + 1; j < nodesArr.length; j++) {
                 const n1 = nodesArr[i];
@@ -407,7 +400,6 @@ export class GraphView extends ItemView {
             }
         }
 
-        // 2. Притяжение по связям
         this.links.forEach(link => {
             const n1 = this.nodes.get(link.source);
             const n2 = this.nodes.get(link.target);
@@ -424,7 +416,6 @@ export class GraphView extends ItemView {
             if (!n2.pinned && n2.id !== this.draggedNodeId) n2.velocity.sub(dir);
         });
 
-        // 3. Обновление позиций
         nodesArr.forEach(node => {
             if (node.id === this.draggedNodeId) {
                 node.velocity.set(0, 0, 0);
